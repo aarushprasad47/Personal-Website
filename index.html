@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aarush Prasad Uli — CS @ University of Washington</title>
+  <meta name="description" content="Aarush Prasad Uli is a Computer Science student at the University of Washington and an undergraduate researcher on DLESyM, a deep-learning Earth system model. Research, experience, projects, and coursework.">
+  <meta name="author" content="Aarush Prasad Uli">
+  <meta name="theme-color" content="#F4F2EC" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0C0E11" media="(prefers-color-scheme: dark)">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Aarush Prasad Uli — CS @ University of Washington">
+  <meta property="og:description" content="Undergraduate researcher on DLESyM. Backend systems, data pipelines, and products people use.">
+  <meta property="og:image" content="/assets/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+
+  <script>
+    // Apply saved theme before paint to avoid a flash.
+    try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+    document.documentElement.classList.add("js");
+  </script>
+  <script src="/script.js" defer></script>
+</head>
+<body>
+  <!-- Icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></symbol>
+    <symbol id="i-devpost" viewBox="0 0 24 24"><path fill="currentColor" d="M6.002 1.61 0 12.004 6.002 22.39h11.996L24 12.004 17.998 1.61zm1.593 4.084h3.947c3.605 0 6.276 1.695 6.276 6.31 0 4.436-3.21 6.302-6.456 6.302H7.595zm2.517 2.449v7.714h1.241c2.646 0 3.862-1.55 3.862-3.861.009-2.569-1.096-3.853-3.767-3.853z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 9 6 9-6"/></g></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M7 17 17 7M8 7h9v9"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M6 13l6 6 6-6"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5M15.5 13h-7M15.5 17h-7"/></g></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4.5a2 2 0 0 1-2-2V4.5a2 2 0 0 1 2-2H13a2 2 0 0 1 2 2V5"/></g></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M4 8h16M4 16h16"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></symbol>
+  </svg>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav" id="top">
+    <div class="nav-inner">
+      <a class="brand" href="#top" aria-label="Aarush Prasad Uli, back to top">
+        <span class="brand-mark" aria-hidden="true">AU</span>
+        <span class="brand-name">Aarush Uli</span>
+      </a>
+      <nav class="nav-links" id="nav-links" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#coursework">Coursework</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode">
+          <svg class="i i-sun"><use href="#i-sun"/></svg>
+          <svg class="i i-moon"><use href="#i-moon"/></svg>
+        </button>
+        <a class="btn btn-sm btn-solid nav-resume" href="/assets/Aarush_Uli_Resume.pdf" target="_blank" rel="noopener">Résumé</a>
+        <button class="icon-btn menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+          <svg class="i i-menu"><use href="#i-menu"/></svg>
+          <svg class="i i-close"><use href="#i-close"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ============ HERO ============ -->
+    <section class="hero" aria-label="Introduction">
+      <canvas class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="pill"><span class="pulse" aria-hidden="true"></span>Open to Summer 2027 SWE internships</p>
+          <h1 class="hero-name"><span>Aarush</span> <span><em>Prasad</em> Uli</span></h1>
+          <p class="hero-role"><span>Computer Science</span><span class="sep" aria-hidden="true">/</span><span>University of Washington</span><span class="sep" aria-hidden="true">/</span><span>Undergraduate Researcher, DLESyM</span></p>
+          <p class="hero-lede">I build software that turns big, messy, real-world data into something people can use: verification pipelines for a deep-learning Earth system model, event-driven backends, and web products with real users.</p>
+          <div class="hero-ctas">
+            <a class="btn btn-solid" href="/assets/Aarush_Uli_Resume.pdf" target="_blank" rel="noopener">
+              <svg class="i"><use href="#i-file"/></svg>View résumé
+            </a>
+            <a class="btn" href="#projects">See projects<svg class="i"><use href="#i-down"/></svg></a>
+            <div class="hero-social">
+              <a class="icon-btn" href="https://github.com/aarushprasad47" target="_blank" rel="noopener" aria-label="GitHub"><svg class="i"><use href="#i-github"/></svg></a>
+              <a class="icon-btn" href="https://www.linkedin.com/in/aarush-uli-143839271" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="i"><use href="#i-linkedin"/></svg></a>
+              <a class="icon-btn" href="https://devpost.com/aarushprasad" target="_blank" rel="noopener" aria-label="Devpost"><svg class="i"><use href="#i-devpost"/></svg></a>
+              <a class="icon-btn" href="mailto:aarushprasad@hotmail.com" aria-label="Email"><svg class="i"><use href="#i-mail"/></svg></a>
+            </div>
+          </div>
+        </div>
+
+        <aside class="now card" aria-label="What I'm doing now">
+          <p class="now-head"><span class="pulse" aria-hidden="true"></span>Now <span class="muted">· Autumn 2026</span></p>
+          <dl class="now-list">
+            <div><dt>Researching</dt><dd>Verification tooling for <a href="#research">DLESyM</a>, UW Atmospheric Sciences</dd></div>
+            <div><dt>Building</dt><dd><a href="#projects">OmniAge</a>, a real-time triage platform <span class="tag tag-wip">WIP</span></dd></div>
+            <div><dt>Studying</dt><dd>CSE 331 &amp; CSE 446</dd></div>
+            <div><dt>Volunteering</dt><dd>Web &amp; social media, Diluv Khutugtu Foundation</dd></div>
+          </dl>
+        </aside>
+      </div>
+
+      <div class="wrap">
+        <div class="hero-meta">
+          <span>Seattle, WA <span class="muted" data-clock>· PT</span></span>
+          <span>B.S. Computer Science · Expected June 2028</span>
+          <span>GPA 3.78 / 4.0</span>
+          <span class="hero-fig muted" aria-hidden="true">fig. 0: live contour field<span class="hover-only"> (move your cursor)</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="section" id="about">
+      <div class="wrap">
+        <div class="sec-head" data-reveal><span class="sec-num">01</span><span class="sec-label">About</span></div>
+        <div class="about-grid">
+          <div class="about-copy" data-reveal>
+            <h2 class="sec-title">I like problems where software meets <em>the physical world.</em></h2>
+            <p>I'm a Computer Science student at the University of Washington. Right now that means <strong>DLESyM</strong>, a GPU-accelerated deep-learning Earth system model developed in collaboration with NVIDIA, where I build the pipelines and diagnostics that check whether the model's simulated climate holds up against observations.</p>
+            <p>Before that, I spent two years building physics-based stormwater models for civil-infrastructure projects around Puget Sound, and writing swerve-drive firmware and computer-vision code for a competitive robotics team. On the side I ship products for real users: a funeral-price transparency platform, a fundraising site for a Mongolian cultural-heritage nonprofit, and an AI-verified social video app.</p>
+          </div>
+          <dl class="facts card" data-reveal>
+            <div><dt>Education</dt><dd>B.S. Computer Science, University of Washington<span class="muted">Expected June 2028 · GPA 3.78</span></dd></div>
+            <div><dt>Selected for</dt><dd>Lavin Entrepreneurship Program<span class="muted">Autumn 2025 cohort · Buerk Center, Foster School of Business</span></dd></div>
+            <div><dt>Languages</dt><dd>English, Japanese, Spanish, Hindi<span class="muted">Native English · fluent Japanese &amp; Spanish</span></dd></div>
+            <div><dt>Looking for</dt><dd>Software engineering internships<span class="muted">Summer 2027</span></dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RESEARCH ============ -->
+    <section class="section section-alt" id="research">
+      <div class="wrap">
+        <div class="sec-head" data-reveal><span class="sec-num">02</span><span class="sec-label">Research</span></div>
+        <div class="research-head">
+          <div data-reveal>
+            <h2 class="sec-title">Checking the work of a deep-learning model <em>of the whole Earth.</em></h2>
+            <p class="sec-lede">DLESyM couples a neural atmosphere and ocean to simulate the climate far faster than traditional physics-based models. I work on the other half of the science: testing whether that output is right. I build the pipelines and diagnostics that compare the model's long simulations against reanalysis data.</p>
+            <a class="link" href="https://arxiv.org/abs/2409.16247" target="_blank" rel="noopener">Read the DLESyM paper on arXiv<svg class="i"><use href="#i-arrow"/></svg></a>
+          </div>
+          <dl class="research-meta card" data-reveal>
+            <div><dt>Role</dt><dd>Undergraduate Researcher</dd></div>
+            <div><dt>Group</dt><dd>UW Atmospheric Sciences &amp; Geophysics</dd></div>
+            <div><dt>Advisors</dt><dd>Prof. Dale Durran · PhD mentor Nathaniel Cresswell-Clay</dd></div>
+            <div><dt>Collaboration</dt><dd>NVIDIA</dd></div>
+            <div><dt>Dates</dt><dd>Jan 2026 – Present</dd></div>
+          </dl>
+        </div>
+
+        <div class="figs">
+          <figure class="fig fig-wide" data-reveal>
+            <button class="plate" type="button" data-zoom aria-label="Enlarge figure: simulated seasonal cycle">
+              <img src="/assets/img/research-seasonal.webp" width="1892" height="454" alt="Contour plot of 500 hPa geopotential height by latitude over ten years of forecast months, showing a regular, repeating seasonal cycle in both hemispheres." loading="lazy" decoding="async">
+              <span class="zoom-hint"><svg class="i"><use href="#i-expand"/></svg></span>
+            </button>
+            <figcaption><span class="fig-no">Fig. 1</span><span><strong>Simulated seasonal cycle.</strong> 500 hPa geopotential height by latitude across ten years of forecast months (1095–1215). The annual cycle stays stable more than 90 years into the simulation.</span></figcaption>
+          </figure>
+          <figure class="fig" data-reveal>
+            <button class="plate" type="button" data-zoom aria-label="Enlarge figure: tropical cyclone seasonality">
+              <img src="/assets/img/research-tc.webp" width="1077" height="795" alt="Stacked area chart of simulated tropical storms per year by calendar day, split into four intensity ranks, peaking between July and September." loading="lazy" decoding="async">
+              <span class="zoom-hint"><svg class="i"><use href="#i-expand"/></svg></span>
+            </button>
+            <figcaption><span class="fig-no">Fig. 2</span><span><strong>Tropical-cyclone seasonality.</strong> Simulated storms per year by intensity rank across the calendar year, with the season peaking in August and September.</span></figcaption>
+          </figure>
+          <figure class="fig" data-reveal>
+            <button class="plate" type="button" data-zoom aria-label="Enlarge figure: Northern Hemisphere diagnostic map">
+              <img src="/assets/img/research-polar.webp" width="1200" height="1032" alt="Polar-stereographic map of the Northern Hemisphere showing a red and blue diverging field from minus 45 to plus 45." loading="lazy" decoding="async">
+              <span class="zoom-hint"><svg class="i"><use href="#i-expand"/></svg></span>
+            </button>
+            <figcaption><span class="fig-no">Fig. 3</span><span><strong>Hemispheric diagnostic map.</strong> A polar-stereographic view of a Northern Hemisphere verification field.</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="contrib">
+          <article class="contrib-item" data-reveal>
+            <span class="contrib-k">Pipelines</span>
+            <h3>Multi-terabyte output, on HPC</h3>
+            <p>Python data pipelines that process multi-TB model output on HPC clusters and reduce it to the numbers that matter.</p>
+          </article>
+          <article class="contrib-item" data-reveal>
+            <span class="contrib-k">Diagnostics</span>
+            <h3>Does the climate behave?</h3>
+            <p>Verification diagnostics for atmospheric blocking statistics, seasonal-cycle metrics, and ENSO indices.</p>
+          </article>
+          <article class="contrib-item" data-reveal>
+            <span class="contrib-k">Tooling</span>
+            <h3>Adopted by the group</h3>
+            <p>Reusable NumPy and PyTorch analysis and visualization tools that quantify model skill against reanalysis, now used by faculty and research staff for ongoing validation.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCE ============ -->
+    <section class="section" id="experience">
+      <div class="wrap">
+        <div class="sec-head" data-reveal><span class="sec-num">03</span><span class="sec-label">Experience</span></div>
+        <h2 class="sec-title" data-reveal>Where I've <em>worked.</em></h2>
+
+        <ol class="xp">
+          <li class="xp-item" data-reveal>
+            <div class="xp-when"><span>Jan 2026 – Present</span><span class="muted">Seattle, WA</span></div>
+            <div class="xp-body">
+              <h3>Undergraduate Researcher <span class="at">@ DLESyM</span></h3>
+              <p class="xp-org">Modeling &amp; Simulation Research, UW Atmospheric Sciences &amp; Geophysics</p>
+              <ul>
+                <li>Contribute to the Deep Learning Earth System Model, a GPU-accelerated Earth system simulation developed in collaboration with NVIDIA.</li>
+                <li>Engineered Python data pipelines processing <strong>multi-TB</strong> model output on HPC clusters, computing blocking statistics, seasonal-cycle metrics, and ENSO indices.</li>
+                <li>Built reusable NumPy/PyTorch analysis and visualization tooling, adopted by faculty and research staff for ongoing model validation.</li>
+              </ul>
+              <div class="chips"><span>Python</span><span>NumPy</span><span>PyTorch</span><span>HPC</span><span>Linux</span></div>
+            </div>
+          </li>
+
+          <li class="xp-item" data-reveal>
+            <div class="xp-when"><span>Current</span><span class="muted">Volunteer</span></div>
+            <div class="xp-body">
+              <h3>Web &amp; Social Media Intern <span class="at">@ Diluv Khutugtu Foundation</span></h3>
+              <p class="xp-org">Nonprofit supporting education, ethics, and community development in Mongolia</p>
+              <ul>
+                <li>Designed and built the <a href="https://dhf-website-two.vercel.app/" target="_blank" rel="noopener">Mongolian Heritage Fund website</a> for the foundation's campaign to restore a Soviet-era theater in Uliastai into a cultural and community center.</li>
+                <li>Manage the foundation's social media presence and support its outreach and fundraising work.</li>
+              </ul>
+              <div class="chips"><span>Next.js</span><span>TypeScript</span><span>Tailwind CSS</span><span>Vercel</span></div>
+            </div>
+          </li>
+
+          <li class="xp-item" data-reveal>
+            <div class="xp-when"><span>Sep 2023 – Aug 2025</span><span class="muted">Redmond, WA</span></div>
+            <div class="xp-body">
+              <h3>Predictive Modeling Intern <span class="at">@ Four Elements Engineering</span></h3>
+              <ul>
+                <li>Built physics-based hydrological models in Python generating predictive stormwater runoff data for <strong>3+</strong> civil-infrastructure projects across the Puget Sound region.</li>
+                <li>Developed internal tools automating field-measurement ingestion, data-quality validation, and recurring workflows, cutting manual processing time by <strong>~80%</strong>.</li>
+              </ul>
+              <div class="chips"><span>Python</span><span>Hydrological modeling</span><span>Automation</span></div>
+            </div>
+          </li>
+
+          <li class="xp-item" data-reveal>
+            <div class="xp-when"><span>Sep 2023 – Jun 2025</span><span class="muted">Redmond, WA</span></div>
+            <div class="xp-body">
+              <h3>Programming Sub-Team <span class="at">@ Pack of Parts Robotics</span></h3>
+              <p class="xp-org">Embedded Software &amp; Controls</p>
+              <ul>
+                <li>Developed swerve-drive firmware in Java with closed-loop motor control and real-time encoder feedback under hard timing constraints; tuned PID loops for autonomous navigation.</li>
+                <li>Integrated an OpenCV vision pipeline for real-time target acquisition, fusing vision estimates with encoder state to drive an actuated arm and improving scoring efficiency by <strong>55%</strong>.</li>
+              </ul>
+              <div class="chips"><span>Java</span><span>OpenCV</span><span>PID control</span><span>Embedded</span></div>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ PROJECTS ============ -->
+    <section class="section section-alt" id="projects">
+      <div class="wrap">
+        <div class="sec-head" data-reveal><span class="sec-num">04</span><span class="sec-label">Projects</span></div>
+        <h2 class="sec-title" data-reveal>Things I've <em>shipped</em> (and one I'm building).</h2>
+
+        <div class="projects">
+          <article class="project card" data-reveal>
+            <a class="project-media browser" href="https://eulogy-nu.vercel.app" target="_blank" rel="noopener" aria-label="Open the Eulogy live site">
+              <span class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>eulogy-nu.vercel.app</span></span>
+              <img src="/assets/img/eulogy.webp" width="1440" height="900" alt="Eulogy homepage: 'Compassionate care when it matters most', with buttons to chat with Eulogy or compare prices." loading="lazy" decoding="async">
+            </a>
+            <div class="project-body">
+              <p class="kicker">Web platform · Live</p>
+              <h3>Eulogy</h3>
+              <p>A funeral-price transparency platform that lets Los Angeles families compare funeral homes before they commit. Four automated pipelines collect pricing: a web scraper, an email bot that requests and parses General Price Lists over IMAP, an AI phone agent that calls funeral homes, and a self-submit form.</p>
+              <div class="chips"><span>Next.js</span><span>MongoDB Atlas</span><span>Prisma</span><span>Gemini</span><span>Twilio</span><span>ElevenLabs</span></div>
+              <div class="project-links">
+                <a class="link" href="https://eulogy-nu.vercel.app" target="_blank" rel="noopener">Live site<svg class="i"><use href="#i-arrow"/></svg></a>
+                <a class="link" href="https://devpost.com/software/eulogy" target="_blank" rel="noopener">Devpost<svg class="i"><use href="#i-arrow"/></svg></a>
+                <a class="link" href="https://github.com/aarushprasad47/eulogy" target="_blank" rel="noopener">Code<svg class="i"><use href="#i-arrow"/></svg></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project card" data-reveal>
+            <a class="project-media browser" href="https://dhf-website-two.vercel.app/" target="_blank" rel="noopener" aria-label="Open the Mongolian Heritage Fund live site">
+              <span class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>dhf-website-two.vercel.app</span></span>
+              <img src="/assets/img/dhf.webp" width="1440" height="900" alt="Mongolian Heritage Fund homepage: 'Legacy Without Borders', with project figures and a quote from the foundation's founder." loading="lazy" decoding="async">
+            </a>
+            <div class="project-body">
+              <p class="kicker">Nonprofit website · Live</p>
+              <h3>Mongolian Heritage Fund</h3>
+              <p>The fundraising site for the Diluv Khutugtu Foundation's campaign to restore a historic theater in Uliastai, Mongolia, into a cultural, creative, and community center. It covers the project story, programs, budget and timeline, and donation paths. Built as a volunteer intern.</p>
+              <div class="chips"><span>Next.js</span><span>TypeScript</span><span>Tailwind CSS</span><span>Vercel</span></div>
+              <div class="project-links">
+                <a class="link" href="https://dhf-website-two.vercel.app/" target="_blank" rel="noopener">Live site<svg class="i"><use href="#i-arrow"/></svg></a>
+                <a class="link" href="https://github.com/aarushprasad47/dhf-website" target="_blank" rel="noopener">Code<svg class="i"><use href="#i-arrow"/></svg></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project card" data-reveal>
+            <a class="project-media tile" href="https://devpost.com/software/tag-pag59d" target="_blank" rel="noopener" aria-label="Open Tag! on Devpost">
+              <span class="tile-ring" aria-hidden="true"></span>
+              <img class="app-icon" src="/assets/img/tag-icon.webp" width="384" height="383" alt="Tag! app icon: two white running figures on a blue gradient." loading="lazy" decoding="async">
+            </a>
+            <div class="project-body">
+              <p class="kicker">Mobile app · Oct 2025</p>
+              <h3>Tag!</h3>
+              <p>A social challenge app: record a skill, tag a friend to try it, and watch the chain grow. Submitted videos are stored in Amazon S3 and verified automatically by a multimodal pipeline built on AWS Bedrock and TwelveLabs. I presented the verification architecture to the TwelveLabs team at their Multimodal Weekly showcase.</p>
+              <div class="chips"><span>Flutter</span><span>Firebase</span><span>AWS S3</span><span>AWS Bedrock</span><span>TwelveLabs</span></div>
+              <div class="project-links">
+                <a class="link" href="https://devpost.com/software/tag-pag59d" target="_blank" rel="noopener">Devpost<svg class="i"><use href="#i-arrow"/></svg></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project card project-wip" data-reveal>
+            <div class="project-media construction" aria-hidden="true">
+              <div class="blueprint"></div>
+              <div class="tape tape-a"><span>UNDER CONSTRUCTION ✦ UNDER CONSTRUCTION ✦ UNDER CONSTRUCTION ✦ UNDER CONSTRUCTION ✦ </span><span>UNDER CONSTRUCTION ✦ UNDER CONSTRUCTION ✦ UNDER CONSTRUCTION ✦ UNDER CONSTRUCTION ✦ </span></div>
+              <div class="tape tape-b"><span>BUILD IN PROGRESS ✦ BUILD IN PROGRESS ✦ BUILD IN PROGRESS ✦ BUILD IN PROGRESS ✦ </span><span>BUILD IN PROGRESS ✦ BUILD IN PROGRESS ✦ BUILD IN PROGRESS ✦ BUILD IN PROGRESS ✦ </span></div>
+              <div class="term"><span class="prompt">$</span> omniage --status<br><span class="muted">→ under construction</span><span class="cursor"></span></div>
+            </div>
+            <div class="project-body">
+              <p class="kicker"><span class="tag tag-wip">Under construction</span> Sep 2026 – Present</p>
+              <h3>OmniAge</h3>
+              <p>A real-time triage platform for iOS. I'm building it right now; a write-up and demo will land here when it's ready.</p>
+              <div class="chips"><span>Spring Boot</span><span>Django</span><span>Apache Kafka</span><span>SwiftUI</span><span>SQLite</span><span>Gemini API</span></div>
+              <p class="wip-note"><span class="pulse" aria-hidden="true"></span>Demo &amp; write-up coming soon</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COURSEWORK ============ -->
+    <section class="section" id="coursework">
+      <div class="wrap">
+        <div class="sec-head" data-reveal><span class="sec-num">05</span><span class="sec-label">Coursework</span></div>
+        <div class="course-head">
+          <h2 class="sec-title" data-reveal>What I've studied <em>at UW.</em></h2>
+          <div class="filters" role="group" aria-label="Filter courses by area" data-reveal>
+            <button type="button" aria-pressed="true" data-filter="all">All</button>
+            <button type="button" aria-pressed="false" data-filter="systems">Systems</button>
+            <button type="button" aria-pressed="false" data-filter="software">Software</button>
+            <button type="button" aria-pressed="false" data-filter="theory">Theory</button>
+            <button type="button" aria-pressed="false" data-filter="ml">ML</button>
+            <button type="button" aria-pressed="false" data-filter="math">Math</button>
+          </div>
+        </div>
+
+        <ul class="courses">
+          <li class="course" data-area="software" data-reveal>
+            <span class="course-code">CSE 123</span>
+            <h3>Introduction to Computer Programming III</h3>
+            <p>Object-oriented programming, recursion, and linked data structures in Java.</p>
+          </li>
+          <li class="course" data-area="theory" data-reveal>
+            <span class="course-code">CSE 311</span>
+            <h3>Foundations of Computing I</h3>
+            <p>Logic, proofs, induction, sets, regular expressions, and finite automata.</p>
+          </li>
+          <li class="course" data-area="theory" data-reveal>
+            <span class="course-code">CSE 312</span>
+            <h3>Foundations of Computing II</h3>
+            <p>Probability and statistics for computing: counting, random variables, and tail bounds.</p>
+          </li>
+          <li class="course is-current" data-area="software" data-reveal>
+            <span class="course-code">CSE 331 <span class="tag tag-now">Now</span></span>
+            <h3>Software Design and Implementation</h3>
+            <p>Building correct, maintainable software: specifications, testing, reasoning, and design.</p>
+          </li>
+          <li class="course" data-area="software" data-reveal>
+            <span class="course-code">CSE 332</span>
+            <h3>Data Structures and Parallelism</h3>
+            <p>Asymptotic analysis, balanced trees, hashing, graphs, sorting, and parallelism.</p>
+          </li>
+          <li class="course" data-area="systems" data-reveal>
+            <span class="course-code">CSE 333</span>
+            <h3>Systems Programming</h3>
+            <p>C and C++: memory management, file and network APIs, and concurrency.</p>
+          </li>
+          <li class="course" data-area="systems" data-reveal>
+            <span class="course-code">CSE 351</span>
+            <h3>The Hardware/Software Interface</h3>
+            <p>Data representation, x86-64 assembly, caches, and virtual memory.</p>
+          </li>
+          <li class="course is-current" data-area="ml" data-reveal>
+            <span class="course-code">CSE 446 <span class="tag tag-now">Now</span></span>
+            <h3>Machine Learning</h3>
+            <p>Regression, classification, regularization, kernels, and neural networks.</p>
+          </li>
+          <li class="course" data-area="math" data-reveal>
+            <span class="course-code">MATH 207</span>
+            <h3>Introduction to Differential Equations</h3>
+            <p>First- and second-order ODEs, systems of equations, and modeling.</p>
+          </li>
+          <li class="course" data-area="math" data-reveal>
+            <span class="course-code">MATH 208</span>
+            <h3>Matrix Algebra with Applications</h3>
+            <p>Linear systems, vector spaces, eigenvalues, and applications.</p>
+          </li>
+          <li class="course" data-area="math" data-reveal>
+            <span class="course-code">MATH 224</span>
+            <h3>Advanced Multivariable Calculus</h3>
+            <p>Multiple integrals, vector fields, and the theorems of Green, Stokes, and Gauss.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ TOOLKIT ============ -->
+    <section class="section section-tight" id="toolkit" aria-labelledby="toolkit-title">
+      <div class="wrap">
+        <div class="sec-head" data-reveal><span class="sec-num">06</span><span class="sec-label" id="toolkit-title">Toolkit</span></div>
+        <div class="toolkit" data-reveal>
+          <div class="tool-group">
+            <h3>Languages</h3>
+            <div class="chips chips-lg"><span>Java</span><span>Python</span><span>C++</span><span>C</span><span>Swift</span><span>C#</span><span>Rust</span><span>JavaScript / TypeScript</span><span>SQL</span></div>
+          </div>
+          <div class="tool-group">
+            <h3>Backend &amp; Data</h3>
+            <div class="chips chips-lg"><span>Spring Boot</span><span>Django</span><span>Apache Kafka</span><span>REST APIs</span><span>SQLite</span><span>MongoDB</span><span>Linux</span></div>
+          </div>
+          <div class="tool-group">
+            <h3>Cloud, Web &amp; Mobile</h3>
+            <div class="chips chips-lg"><span>AWS (S3, Bedrock)</span><span>Next.js</span><span>React</span><span>Flutter</span><span>SwiftUI</span><span>Git</span></div>
+          </div>
+          <div class="tool-group">
+            <h3>ML &amp; Scientific</h3>
+            <div class="chips chips-lg"><span>PyTorch</span><span>NumPy</span><span>OpenCV</span><span>Gemini API</span><span>HPC</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section contact" id="contact">
+      <div class="wrap">
+        <div class="sec-head" data-reveal><span class="sec-num">07</span><span class="sec-label">Contact</span></div>
+        <div class="contact-grid">
+          <div data-reveal>
+            <h2 class="contact-title">Let's build <em>something.</em></h2>
+            <p class="sec-lede">I'm looking for software engineering internships for Summer 2027. Email is the fastest way to reach me, and my résumé has everything on one page.</p>
+          </div>
+          <div class="contact-actions" data-reveal>
+            <div class="email-row">
+              <a class="email" href="mailto:aarushprasad@hotmail.com"><svg class="i"><use href="#i-mail"/></svg>aarushprasad@hotmail.com</a>
+              <button class="icon-btn copy-email" type="button" data-copy="aarushprasad@hotmail.com" aria-label="Copy email address"><svg class="i"><use href="#i-copy"/></svg></button>
+            </div>
+            <div class="contact-links">
+              <a class="btn btn-solid" href="/assets/Aarush_Uli_Resume.pdf" target="_blank" rel="noopener"><svg class="i"><use href="#i-file"/></svg>Résumé (PDF)</a>
+              <a class="btn" href="https://www.linkedin.com/in/aarush-uli-143839271" target="_blank" rel="noopener"><svg class="i"><use href="#i-linkedin"/></svg>LinkedIn</a>
+              <a class="btn" href="https://github.com/aarushprasad47" target="_blank" rel="noopener"><svg class="i"><use href="#i-github"/></svg>GitHub</a>
+              <a class="btn" href="https://devpost.com/aarushprasad" target="_blank" rel="noopener"><svg class="i"><use href="#i-devpost"/></svg>Devpost</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <span>© 2026 Aarush Prasad Uli · Seattle, WA</span>
+      <span class="muted">Hand-built with HTML, CSS &amp; vanilla JS.</span>
+      <a class="link" href="#top">Back to top</a>
+    </div>
+  </footer>
+
+  <dialog class="lightbox" aria-label="Enlarged figure">
+    <button class="icon-btn lightbox-close" type="button" aria-label="Close"><svg class="i"><use href="#i-close"/></svg></button>
+    <figure>
+      <img alt="">
+      <figcaption></figcaption>
+    </figure>
+  </dialog>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
