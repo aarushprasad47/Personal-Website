@@ -17,7 +17,8 @@ python3 -m http.server 8765
 index.html            all page content
 styles.css            design tokens (light/dark), layout, components
 script.js             theme toggle, nav, reveal-on-scroll, course filter, lightbox,
-                      and the animated contour field in the hero
+                      pointer effects, the ShelfLife sensor demo, and the animated
+                      contour field in the hero
 assets/
   Aarush_Uli_Resume.pdf
   favicon.svg

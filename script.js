@@ -16,7 +16,12 @@
   /* ---------- Nav: scrolled state, mobile menu, active section ---------- */
   const nav = document.querySelector(".nav");
   const menuBtn = document.querySelector(".menu-toggle");
-  const onScroll = () => nav.classList.toggle("scrolled", scrollY > 8);
+  const progress = document.querySelector(".progress");
+  const onScroll = () => {
+    nav.classList.toggle("scrolled", scrollY > 8);
+    const max = root.scrollHeight - innerHeight;
+    progress?.style.setProperty("--progress", max > 0 ? (scrollY / max).toFixed(4) : "0");
+  };
   addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 
@@ -39,12 +44,54 @@
   }, { rootMargin: "-45% 0px -50% 0px" });
   navLinks.forEach((_, id) => { const s = document.getElementById(id); if (s) sectionObserver.observe(s); });
 
+  /* ---------- Text effects: label decode, number count-up ---------- */
+  const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/#%&*+=<>";
+  const scramble = (el) => {
+    if (reduceMotion.matches) return;
+    const final = el.textContent;
+    const frames = 22;
+    let f = 0;
+    const tick = () => {
+      const settled = Math.floor((++f / frames) * final.length);
+      el.textContent = [...final].map((ch, i) => (i < settled || ch === " " ? ch : GLYPHS[(Math.random() * GLYPHS.length) | 0])).join("");
+      if (f < frames) requestAnimationFrame(tick);
+      else el.textContent = final;
+    };
+    requestAnimationFrame(tick);
+  };
+
+  const easeOut = (x) => 1 - Math.pow(1 - x, 3);
+  const countUp = (el) => {
+    const m = el.textContent.match(/^(\D*)(\d+)(\D*)$/);
+    if (!m || reduceMotion.matches) return;
+    const [, pre, num, post] = m;
+    el.style.display = "inline-block";
+    el.style.minWidth = `${el.offsetWidth}px`; // hold the final width so the line doesn't reflow
+    const t0 = performance.now();
+    const step = (now) => {
+      const p = Math.min((now - t0) / 1400, 1);
+      el.textContent = `${pre}${Math.round(+num * easeOut(p))}${post}`;
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
   /* ---------- Reveal on scroll ---------- */
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
-      entry.target.classList.add("in");
-      revealObserver.unobserve(entry.target);
+      const el = entry.target;
+      el.classList.add("in");
+      revealObserver.unobserve(el);
+      el.querySelectorAll(".sec-label").forEach(scramble);
+      el.querySelectorAll("[data-count]").forEach(countUp);
+      // After the reveal, drop the attribute so hover transitions aren't delayed or overridden.
+      el.addEventListener("transitionend", function done(e) {
+        if (e.target !== el) return;
+        el.removeEventListener("transitionend", done);
+        el.removeAttribute("data-reveal");
+        el.style.transitionDelay = "";
+      });
     });
   }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
   document.querySelectorAll("[data-reveal]").forEach((el) => {
@@ -111,6 +158,159 @@
     dialog.addEventListener("click", (e) => { if (e.target === dialog) dialog.close(); });
   }
 
+  /* ---------- Hero name: split into letters for the intro + hover wave ---------- */
+  const heroName = document.querySelector(".hero-name");
+  if (heroName) {
+    const label = heroName.textContent.replace(/\s+/g, " ").trim();
+    let n = 0;
+    const split = (node) => [...node.childNodes].forEach((child) => {
+      if (child.nodeType !== Node.TEXT_NODE) return split(child);
+      const frag = document.createDocumentFragment();
+      for (const ch of child.textContent) {
+        if (/\s/.test(ch)) { frag.append(ch); continue; }
+        const s = document.createElement("span");
+        s.className = "ch";
+        s.textContent = ch;
+        s.style.setProperty("--i", n++);
+        frag.append(s);
+      }
+      child.replaceWith(frag);
+    });
+    split(heroName);
+    // Screen readers get the name once, not letter by letter.
+    [...heroName.children].forEach((c) => c.setAttribute("aria-hidden", "true"));
+    const sr = document.createElement("span");
+    sr.className = "sr-only";
+    sr.textContent = label;
+    heroName.append(sr);
+    heroName.classList.add("intro");
+    setTimeout(() => heroName.classList.remove("intro"), n * 40 + 1300);
+  }
+
+  /* ---------- Pointer effects: card spotlight, project tilt, magnetic buttons ---------- */
+  document.querySelectorAll(".card, .course").forEach((el) => {
+    const tilt = el.classList.contains("project");
+    el.addEventListener("pointermove", (e) => {
+      if (e.pointerType !== "mouse") return;
+      const r = el.getBoundingClientRect();
+      const x = e.clientX - r.left, y = e.clientY - r.top;
+      el.style.setProperty("--mx", `${x}px`);
+      el.style.setProperty("--my", `${y}px`);
+      if (tilt && !reduceMotion.matches) {
+        const k = Math.min(1, 560 / r.width); // wide cards tilt less
+        el.style.setProperty("--rx", `${((0.5 - y / r.height) * 4 * k).toFixed(2)}deg`);
+        el.style.setProperty("--ry", `${((x / r.width - 0.5) * 5 * k).toFixed(2)}deg`);
+      }
+    });
+    if (tilt) el.addEventListener("pointerleave", () => { el.style.removeProperty("--rx"); el.style.removeProperty("--ry"); });
+  });
+
+  document.querySelectorAll(".hero-ctas .btn, .hero-social .icon-btn, .contact-links .btn").forEach((el) => {
+    el.addEventListener("pointermove", (e) => {
+      if (e.pointerType !== "mouse" || reduceMotion.matches) return;
+      const r = el.getBoundingClientRect();
+      el.style.translate = `${((e.clientX - r.left) / r.width - 0.5) * 8}px ${((e.clientY - r.top) / r.height - 0.5) * 8}px`;
+    });
+    el.addEventListener("pointerleave", () => { el.style.translate = ""; });
+  });
+
+  /* ---------- ShelfLife: simulated sensor feed ----------
+     Fridge temperature hovers near 3 °C with the odd door-open spike; each
+     food's spoilage risk accumulates faster the warmer it gets. */
+  const sensor = document.querySelector(".sensor");
+  if (sensor) {
+    const line = sensor.querySelector(".sensor-line");
+    const area = sensor.querySelector(".sensor-area");
+    const tempEl = sensor.querySelector('[data-sensor="temp"]');
+    const rhEl = sensor.querySelector('[data-sensor="rh"]');
+    const risks = [...sensor.querySelectorAll(".risk i")].map((el, k) => ({ el, r: parseFloat(el.style.getPropertyValue("--r")), rate: [0.004, 0.007, 0.011][k] }));
+    const W = 320, H = 100, N = 40, STEP = W / (N - 2), TICK = 650;
+    const yOf = (c) => H - (c / 10) * H; // 0–10 °C, so the 4 °C limit line sits at y = 60
+    let tick = 0, door = 0;
+    const next = () => {
+      tick++;
+      if (door <= 0 && Math.random() < 0.05) door = 7;
+      const spike = door > 0 ? Math.sin((door-- / 7) * Math.PI) * 3.2 : 0;
+      return 3.1 + 0.45 * Math.sin(tick / 6) + (Math.random() - 0.5) * 0.35 + spike;
+    };
+    const temps = Array.from({ length: N }, next);
+
+    // Catmull-Rom through the points, as cubic Béziers.
+    const smooth = (p) => p.reduce((d, [x, y], i) => {
+      if (!i) return `M${x.toFixed(1)},${y.toFixed(1)}`;
+      const [x0, y0] = p[i - 2] || p[i - 1], [x1, y1] = p[i - 1], [x3, y3] = p[i + 1] || p[i];
+      return `${d} C${(x1 + (x - x0) / 6).toFixed(1)},${(y1 + (y - y0) / 6).toFixed(1)} ${(x - (x3 - x1) / 6).toFixed(1)},${(y - (y3 - y1) / 6).toFixed(1)} ${x.toFixed(1)},${y.toFixed(1)}`;
+    }, "");
+    const render = (frac) => {
+      const pts = temps.map((c, i) => [(i - frac) * STEP, yOf(c)]);
+      const d = smooth(pts);
+      line.setAttribute("d", d);
+      area.setAttribute("d", `${d} L${pts[N - 1][0].toFixed(1)},${H} L${pts[0][0].toFixed(1)},${H} Z`);
+    };
+    const readout = () => {
+      const t = temps[N - 2]; // the point sitting at the right edge
+      tempEl.textContent = t.toFixed(1);
+      rhEl.textContent = Math.round(60 + 3 * Math.sin(tick / 9) + (Math.random() - 0.5) * 2 + (t > 4 ? 4 : 0));
+      risks.forEach((k) => {
+        k.r += k.rate * (0.4 + Math.max(0, t - 2));
+        if (k.r > 0.96) k.r = 0.08; // restocked
+        k.el.style.setProperty("--r", k.r.toFixed(3));
+      });
+    };
+
+    let raf = 0, lastShift = 0;
+    const frame = (now) => {
+      raf = requestAnimationFrame(frame);
+      if (now - lastShift >= TICK) {
+        lastShift = now;
+        temps.shift();
+        temps.push(next());
+        readout();
+      }
+      render((now - lastShift) / TICK);
+    };
+    render(0);
+    readout();
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !raf && !reduceMotion.matches) raf = requestAnimationFrame(frame);
+      else if (!entry.isIntersecting && raf) { cancelAnimationFrame(raf); raf = 0; }
+    }).observe(sensor);
+  }
+
+  /* ---------- OmniAge: terminal that types itself ---------- */
+  const term = document.querySelector(".construction .term");
+  if (term && !reduceMotion.matches) {
+    const lines = [...term.querySelectorAll(".tl")].map((tl) => {
+      const tt = tl.querySelector(".tt");
+      return { tl, tt, text: tt.textContent };
+    });
+    const cursor = term.querySelector(".cursor");
+    let li = 0, ci = 0, timer = 0, active = false;
+    const reset = () => {
+      lines.forEach((l) => { l.tl.style.visibility = "hidden"; l.tt.textContent = ""; });
+      li = 0; ci = 0;
+    };
+    const type = () => {
+      const l = lines[li];
+      l.tl.style.visibility = "visible";
+      l.tl.append(cursor);
+      if (ci < l.text.length) { l.tt.textContent = l.text.slice(0, ++ci); timer = setTimeout(type, 30 + Math.random() * 50); return; }
+      if (li < lines.length - 1) { li++; ci = 0; timer = setTimeout(type, li === 1 ? 500 : 280); return; }
+      timer = setTimeout(() => { reset(); type(); }, 4200);
+    };
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !active) {
+        active = true;
+        term.style.minWidth = `${term.offsetWidth}px`; // keep the box steady while lines are empty
+        reset();
+        type();
+      } else if (!entry.isIntersecting && active) {
+        active = false;
+        clearTimeout(timer);
+      }
+    }).observe(term);
+  }
+
   /* ---------- Hero: animated contour field ----------
      A smooth scalar field (3D Perlin noise, with time as the third axis) is
      contoured with marching squares, like isobars on a weather map. The cursor
@@ -156,6 +356,7 @@
   let colors = { line: "", hi: "" };
   let t = 0, last = 0, raf = 0, visible = true;
   const pointer = { x: 0, y: 0, tx: 0, ty: 0, s: 0, ts: 0 };
+  const ripples = []; // clicks send a ring-shaped wave out through the field
 
   const readColors = () => {
     const cs = getComputedStyle(root);
@@ -177,6 +378,12 @@
   const sample = () => {
     const sigma2 = 2 * 140 * 140;
     const drift = t * 0.35;
+    const now = performance.now();
+    while (ripples.length && now - ripples[0].t0 > 3500) ripples.shift();
+    const waves = ripples.map((r) => {
+      const age = (now - r.t0) / 1000;
+      return { x: r.x, y: r.y, R: age * 340, a: 0.85 * Math.exp(-age * 0.9) };
+    });
     for (let j = 0; j < rows; j++) {
       const y = j * cell;
       for (let i = 0; i < cols; i++) {
@@ -185,6 +392,10 @@
         if (pointer.s > 0.001) {
           const dx = x - pointer.x, dy = y - pointer.y;
           v += pointer.s * 0.5 * Math.exp(-(dx * dx + dy * dy) / sigma2);
+        }
+        for (const w of waves) {
+          const d = Math.hypot(x - w.x, y - w.y) - w.R;
+          v += w.a * Math.exp(-(d * d) / 5000);
         }
         field[j * cols + i] = v;
       }
@@ -261,6 +472,12 @@
     pointer.ts = 1;
   });
   hero.addEventListener("pointerleave", () => { pointer.ts = 0; });
+  hero.addEventListener("pointerdown", (e) => {
+    if (e.target.closest("a, button, .now")) return;
+    const r = canvas.getBoundingClientRect();
+    ripples.push({ x: e.clientX - r.left, y: e.clientY - r.top, t0: performance.now() });
+    if (ripples.length > 5) ripples.shift();
+  });
 
   new IntersectionObserver(([entry]) => {
     visible = entry.isIntersecting;
